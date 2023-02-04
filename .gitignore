@@ -1,2 +1,7 @@
-# Project exclude paths
+# 特定檔案或資料夾
 /node_modules/
+
+# 特定副檔名
+*.log
+*.swp
+/.idea/
