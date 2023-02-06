@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Management</title>
+</head>
+<body>
+<h1>User Management</h1>
+<table>
+    <thead>
+    <tr>
+        <th>帳號</th>
+        <th>密碼</th>
+        <th>狀態</th>
+        <th>創建時間</th>
+        <th>更新時間</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for (var i = 0; i < users.length && i < 10; i++) { %>
+        <tr>
+            <td><%= users[i].帳號 %></td>
+            <td><%= users[i].密碼 %></td>
+            <td><%= users[i].狀態 %></td>
+            <td><%= users[i].createdAt %></td>
+            <td><%= users[i].updatedAt %></td>
+            <td>
+                <button onclick="editUser('<%= users[i].帳號 %>','<%= users[i].密碼 %>','<%= users[i].狀態 %>')">修改</button>
+                <button onclick="deleteUser('<%= users[i].帳號 %>')">刪除</button>
+            </td>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
+<br><br>
+<form>
+    <label for="accountInput">帳號：</label>
+    <input type="text" id="accountInput" name="accountInput">
+    <br><br>
+    <label for="passwordInput">密碼：</label>
+    <input type="text" id="passwordInput" name="passwordInput">
+    <br><br>
+    <label for="statusInput">狀態：</label>
+    <input type="text" id="statusInput" name="statusInput">
+    <br><br>
+    <button onclick="createUser()">新增</button>
+</form>
+
+<form id="update-form" style="display: none;">
+    <label for="UaccountInput" >帳號：</label>
+    <input disabled="disabled" type="text" id="UaccountInput" name="accountInput">
+    <br><br>
+    <label for="UpasswordInput">密碼：</label>
+    <input type="text" id="UpasswordInput" name="passwordInput">
+    <br><br>
+    <label for="UstatusInput">狀態：</label>
+    <input type="text" id="UstatusInput" name="statusInput">
+    <br><br>
+    <button onclick="updateUser()">更新</button>
+    <button onclick="取消編輯()">取消</button>
+</form>
+
+<script>
+    function createUser() {
+        const 新使用者 = {
+            '帳號':document.getElementById('accountInput').value,
+            '密碼':document.getElementById('passwordInput').value,
+            '狀態':document.getElementById('statusInput').value,
+        }
+        // 處理新增使用者的邏輯
+        fetch(`/users/`,{method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },body:JSON.stringify(新使用者)})
+            .then(function() {
+// 重新載入清單頁面
+                location.reload()
+            })
+            .catch(function(error) {
+                console.error(error)
+            })
+    }
+    function editUser(帳號,密碼,狀態) {
+        // 處理修改使用者的邏輯
+        const updateForm = document.getElementById('update-form');
+        document.getElementById('UaccountInput').value = 帳號
+        document.getElementById('UpasswordInput').value = 密碼
+        document.getElementById('UstatusInput').value = 狀態
+        updateForm.style.display = 'block';
+    }
+    function deleteUser(account) {
+        fetch(`/users/${account}`, {
+            method: 'DELETE',
+        })
+            .then(function() {
+// 重新載入清單頁面
+                location.reload()
+            })
+            .catch(function(error) {
+                console.error(error)
+            })
+    }
+    function 取消編輯(){
+        const updateForm = document.getElementById('update-form');
+        document.getElementById('UaccountInput').value = ''
+        document.getElementById('UpasswordInput').value = ''
+        document.getElementById('UstatusInput').value = ''
+        updateForm.style.display = 'none';
+    }
+    function updateUser() {
+        const 被更新的使用者 = {
+            '帳號':document.getElementById('UaccountInput').value,
+            '密碼':document.getElementById('UpasswordInput').value,
+            '狀態':document.getElementById('UstatusInput').value,
+        }
+        // 處理新增使用者的邏輯
+        fetch(`/users/${被更新的使用者.帳號}`,{method:'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },body:JSON.stringify(被更新的使用者)})
+            .then(function() {
+// 重新載入清單頁面
+                location.reload()
+            })
+            .catch(function(error) {
+                console.error(error)
+            })
+    }
+
+</script>
+
+
+</body>
+</html>

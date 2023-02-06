@@ -16,6 +16,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.set('view engine', 'ejs');
+
+// 設定 views 資料夾存放 ejs 檔案
+app.set('views', path.join(__dirname, 'views'));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

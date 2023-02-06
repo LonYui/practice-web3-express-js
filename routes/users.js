@@ -17,17 +17,23 @@ let users = [
   {
     "帳號": "user1",
     "密碼": "password1",
-    "狀態": "啟用"
+    "狀態": "啟用",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
   },
   {
     "帳號": "user2",
     "密碼": "password2",
-    "狀態": "禁用"
+    "狀態": "禁用",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
   },
   {
     "帳號": "user3",
     "密碼": "password3",
-    "狀態": "啟用"
+    "狀態": "啟用",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
   }
 ]
 
@@ -36,7 +42,8 @@ let users = [
 // })
 
 router.get('/', (req, res) => {
-  res.json(users)
+  // res.json(users)
+  res.render('user_management',{users});
 })
 
 router.get('/:account', (req, res) => {
@@ -74,6 +81,11 @@ router.delete('/:account', (req, res) => {
   users = users.filter(user => user.帳號 !== req.params.account)
   res.json(user)
 })
+
+// router.get('/user_management',(req,res)=>{
+//   res.render('user_management',{users});
+// })
+
 
 // app.listen(port, () => {
 //   console.log(`Example app listening at http://localhost:${port}`)
