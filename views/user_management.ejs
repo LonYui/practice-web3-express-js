@@ -33,32 +33,38 @@
     </tbody>
 </table>
 <br><br>
-<form>
-    <label for="accountInput">帳號：</label>
-    <input type="text" id="accountInput" name="accountInput">
-    <br><br>
-    <label for="passwordInput">密碼：</label>
-    <input type="text" id="passwordInput" name="passwordInput">
-    <br><br>
-    <label for="statusInput">狀態：</label>
-    <input type="text" id="statusInput" name="statusInput">
-    <br><br>
-    <button onclick="createUser()">新增</button>
-</form>
 
-<form id="update-form" style="display: none;">
-    <label for="UaccountInput" >帳號：</label>
-    <input disabled="disabled" type="text" id="UaccountInput" name="accountInput">
-    <br><br>
-    <label for="UpasswordInput">密碼：</label>
-    <input type="text" id="UpasswordInput" name="passwordInput">
-    <br><br>
-    <label for="UstatusInput">狀態：</label>
-    <input type="text" id="UstatusInput" name="statusInput">
-    <br><br>
-    <button onclick="updateUser()">更新</button>
-    <button onclick="取消編輯()">取消</button>
-</form>
+<div style="display:flex; justify-content: space-between;">
+    <form style="width: 48%">
+        <label for="accountInput"  >帳號：</label>
+        <input type="text" id="accountInput" name="accountInput">
+        <br><br>
+        <label for="passwordInput">密碼：</label>
+        <input type="text" id="passwordInput" name="passwordInput">
+        <br><br>
+        <label for="statusInput">狀態：</label>
+        <input type="text" id="statusInput" name="statusInput">
+        <br><br>
+        <button onclick="createUser()">新增</button>
+    </form>
+    <form id="update-form" style="display: none;width: 48%">
+        <label for="UaccountInput" class="disable" >帳號：</label>
+        <input disabled="disabled" class="disable" type="text" id="UaccountInput" name="accountInput">
+        <br><br>
+        <label for="UpasswordInput">密碼：</label>
+        <input type="text" id="UpasswordInput" name="passwordInput">
+        <br><br>
+        <label for="UstatusInput">狀態：</label>
+        <input type="text" id="UstatusInput" name="statusInput">
+        <br><br>
+        <button onclick="updateUser()">更新</button>
+        <button onclick="取消編輯()">取消</button>
+    </form>
+</div>
+
+
+
+</body>
 
 <script>
     function createUser() {
@@ -129,6 +135,73 @@
 
 </script>
 
+<style>
+    /*body {*/
+    /*    background-image: url('images/930523982_today_is_Lantern_Festival__massive_rain_in_neon_city_with_cyberpunk__style_.png');*/
+    /*    background-size: cover;*/
+    /*    background-repeat: no-repeat;*/
+    /*}*/
 
-</body>
+    body {
+        background-image: url('images/930523982_today_is_Lantern_Festival__massive_rain_in_neon_city_with_cyberpunk__style_.png'); /* 背景圖片 */
+        background-size: cover; /* 將圖片覆蓋整個 body */
+        font-family: Arial, sans-serif; /* 字型 */
+    }
+
+    h1 {
+        text-align: center; /* 將標題置中 */
+        color: #fff; /* 文字顏色 */
+        text-shadow: 1px 1px #333; /* 文字陰影 */
+    }
+
+    table {
+        margin: auto; /* 將表格置中 */
+        width: 80%; /* 表格寬度 */
+        border-collapse: collapse; /* 移除表格邊框 */
+        box-shadow: 1px 1px #333; /* 表格陰影 */
+        color: #fff; /* 表格文字顏色 */
+    }
+
+    th, td {
+        padding: 8px; /* 表格內距 */
+        border: 1px solid #333; /* 表格邊框 */
+        text-align: center; /* 將表格文字置中 */
+    }
+
+    th {
+        background-color: #333; /* 表格標題背景顏色 */
+    }
+
+    button {
+        background-color: #333; /* 按鈕背景顏色 */
+        color: #fff; /* 按鈕文字顏色 */
+        padding: 8px 16px; /* 按鈕內距 */
+        border-radius: 4px; /* 按鈕圓角 */
+        border: none; /* 移除按鈕邊框 */
+        cursor: pointer; /* 指標樣式 */
+    }
+
+    label {
+        color: #fff; /* 標籤文字顏色 */
+    }
+
+    input[type="text"] {
+        padding: 8px; /* 輸入框內距 */
+        width: 100%; /* 輸入框寬度 */
+        border-radius: 4px; /* 輸入框圓角 */
+        border: 1px solid #333; /* 輸入框邊框 */
+        color: #fff; /* 輸入框文字顏色 */
+        background-color: #333; /* 輸入框背景顏色 */
+    }
+
+    .disable {
+        color: gray;
+    }
+    input[disabled] {
+        color: gray;
+    }
+
+
+</style>
+
 </html>
