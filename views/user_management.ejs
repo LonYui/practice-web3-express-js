@@ -120,7 +120,7 @@
             'status':document.getElementById('UstatusInput').value,
         }
         // 處理新增使用者的邏輯
-        fetch(`/users/${被更新的使用者.帳號}`,{method:'PUT',
+        fetch(`/users/${被更新的使用者.account}`,{method:'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },body:JSON.stringify(被更新的使用者)})

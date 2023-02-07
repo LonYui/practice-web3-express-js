@@ -187,14 +187,36 @@ router.post('/', async (req, res) => {
   return
 })
 
-router.put('/:account', (req, res) => {
-  const userIndex = users.findIndex(user => user.帳號 === req.params.account)
+router.put('/:account', async (req, res) => {
+  const userIndex = users.findIndex(user => user.account === req.params.account)
   if (userIndex === -1) {
-    res.status(404).send('User not found')
+    res.status(404).send('User not found #memory')
     return
   }
-  users[userIndex] = { ...users[userIndex], ...req.body }
-  res.json(users[userIndex])
+  // users[userIndex] = { ...users[userIndex], ...req.body }
+  const send = async() => {
+    const tx = {
+      from:pubKey,
+      to:contractAddress,
+      // gas:50000,
+      gas:303146,
+      data:contract.methods.updateUser(req.body.account, req.body.password, req.body.status).encodeABI()
+    }
+    const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
+    web3.eth.sendSignedTransaction(signature.rawTransaction)
+        .on(
+            "receipt", (receipt) => {
+              console.log(receipt)
+            }
+        )
+        .catch(error => {
+          console.error(error)
+        })
+
+  }
+  await send()
+  // res.json(users[userIndex])
+  return
 })
 
 router.delete('/:account', (req, res) => {
