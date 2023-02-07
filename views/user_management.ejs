@@ -4,7 +4,7 @@
     <title>User Management</title>
 </head>
 <body>
-<h1>User Management</h1>
+<h1>User Management</h1>合約:<%= '0x...'+contractAddress.slice(36) %>
 <table>
     <thead>
     <tr>
@@ -17,16 +17,16 @@
     </tr>
     </thead>
     <tbody>
-    <% for (var i = 0; i < users.length && i < 10; i++) { %>
+    <% for (var i = 0; i < users.length && i < 100; i++) { %>
         <tr>
-            <td><%= users[i].帳號 %></td>
-            <td><%= users[i].密碼 %></td>
-            <td><%= users[i].狀態 %></td>
+            <td><%= users[i].account %></td>
+            <td><%= users[i].password %></td>
+            <td><%= users[i].status %></td>
             <td><%= users[i].createdAt %></td>
             <td><%= users[i].updatedAt %></td>
             <td>
-                <button onclick="editUser('<%= users[i].帳號 %>','<%= users[i].密碼 %>','<%= users[i].狀態 %>')">修改</button>
-                <button onclick="deleteUser('<%= users[i].帳號 %>')">刪除</button>
+                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>')">修改</button>
+                <button onclick="deleteUser('<%= users[i].account %>')">刪除</button>
             </td>
         </tr>
     <% } %>
@@ -69,9 +69,9 @@
 <script>
     function createUser() {
         const 新使用者 = {
-            '帳號':document.getElementById('accountInput').value,
-            '密碼':document.getElementById('passwordInput').value,
-            '狀態':document.getElementById('statusInput').value,
+            'account':document.getElementById('accountInput').value,
+            'password':document.getElementById('passwordInput').value,
+            'status':document.getElementById('statusInput').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/`,{method:'POST',
@@ -115,9 +115,9 @@
     }
     function updateUser() {
         const 被更新的使用者 = {
-            '帳號':document.getElementById('UaccountInput').value,
-            '密碼':document.getElementById('UpasswordInput').value,
-            '狀態':document.getElementById('UstatusInput').value,
+            'account':document.getElementById('UaccountInput').value,
+            'password':document.getElementById('UpasswordInput').value,
+            'status':document.getElementById('UstatusInput').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/${被更新的使用者.帳號}`,{method:'PUT',
