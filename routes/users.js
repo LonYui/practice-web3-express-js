@@ -29,15 +29,16 @@ const contractAbi = [
         "internalType": "string",
         "name": "_password",
         "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_status",
-        "type": "uint256"
       }
     ],
     "name": "createUser",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -50,7 +51,13 @@ const contractAbi = [
       }
     ],
     "name": "deleteUser",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -65,15 +72,16 @@ const contractAbi = [
         "internalType": "string",
         "name": "_password",
         "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_status",
-        "type": "uint256"
       }
     ],
     "name": "updateUser",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -91,6 +99,19 @@ const contractAbi = [
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAccountLength",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -136,7 +157,7 @@ const contractAbi = [
     "type": "function"
   }
 ]; // 合約的 ABI（接口說明）
-const contractAddress = '0x592e5747fF6481323F7bD59F3B9D875AeAa3Df45'; // 合約的地址
+const contractAddress = '0x5592cd2c816e86E4F9f2f9D3AFc2e1c4b8E01fDc'; // 合約的地址
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 const privateKey = 'd12641050545136f0e86ba2c695a1e97c45715c01257220bc7c24e00f601b1d3'
 const pubKey = '0x1C9D9fB55779499F0ebCf700ac4b6EC183DD7b2a'
@@ -146,7 +167,6 @@ const pubKey = '0x1C9D9fB55779499F0ebCf700ac4b6EC183DD7b2a'
 let 帳號表 = []
 let users = []
 
-sync_chaindata()
 router.get('/', async (req, res) => {
   await sync_chaindata()
   res.render('user_management',{users,contractAddress});
@@ -156,7 +176,7 @@ router.get('/', async (req, res) => {
 //   // const user = users.find(user => user.帳號 === req.params.account)
 //   const user = await contract.methods.users(req.params.account).call()
 //   if (!user) {
-//     res.status(404).send('User not found')
+//     res.status(404).send('找不到使用者 #memory')
 //     return
 //   }
 //   res.json(user)
@@ -200,7 +220,7 @@ router.put('/:account', async (req, res) => {
       to:contractAddress,
       // gas:50000,
       gas:303146,
-      data:contract.methods.updateUser(req.body.account, req.body.password, req.body.status).encodeABI()
+      data:contract.methods.updateUser(req.body.account, req.body.password).encodeABI()
     }
     const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
     web3.eth.sendSignedTransaction(signature.rawTransaction)
@@ -219,15 +239,35 @@ router.put('/:account', async (req, res) => {
   return
 })
 
-router.delete('/:account', (req, res) => {
-  const userIndex = users.findIndex(user => user.帳號 === req.params.account)
+router.delete('/:account', async (req, res) => {
+  const userIndex = users.findIndex(user => user.account === req.params.account)
   if (userIndex === -1) {
-    res.status(404).send('User not found')
-    return
+    res.status(404).send('找不到使用者 #memory')
   }
-  const user = users[userIndex]
-  users = users.filter(user => user.帳號 !== req.params.account)
-  res.json(user)
+  // const user = users[userIndex]
+  // users = users.filter(user => user.帳號 !== req.params.account)
+  const send = async() => {
+    const tx = {
+      from:pubKey,
+      to:contractAddress,
+      // gas:50000,
+      gas:303146,
+      data:contract.methods.deleteUser(req.params.account).encodeABI()
+    }
+    const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
+    web3.eth.sendSignedTransaction(signature.rawTransaction)
+        .on(
+            "receipt", (receipt) => {
+              console.log(receipt)
+              return receipt
+            }
+        )
+        .catch(error => {
+          console.error(error)
+          return error
+        })
+  }
+  res.status(200).send(await send())
 })
 
 
