@@ -5,6 +5,9 @@
 </head>
 <body>
 <h1>User Management</h1>合約:<%= '0x...'+contractAddress.slice(36) %>
+<input type="text" id="filterInput">
+<button onclick="filterTable()">篩選</button>
+
 <table>
     <thead>
     <tr>
@@ -22,10 +25,10 @@
             <td><%= users[i].account %></td>
             <td><%= users[i].password %></td>
             <td><%= users[i].status %></td>
-            <td><%= users[i].createdAt %></td>
-            <td><%= users[i].updatedAt %></td>
+            <td><%= yyyymmddhhMMss(users[i].createdAt) %></td>
+            <td><%= yyyymmddhhMMss(users[i].updatedAt) %></td>
             <td>
-                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>')">修改</button>
+                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>')">修改</button>
                 <button onclick="deleteUser('<%= users[i].account %>')">刪除</button>
             </td>
         </tr>
@@ -41,11 +44,13 @@
         <br><br>
         <label for="passwordInput">密碼：</label>
         <input type="text" id="passwordInput" name="passwordInput">
+<!--        <br><br>-->
+<!--        <label for="statusInput">狀態：</label>-->
+<!--        <input type="text" id="statusInput" name="statusInput">-->
         <br><br>
-        <label for="statusInput">狀態：</label>
-        <input type="text" id="statusInput" name="statusInput">
-        <br><br>
-        <button onclick="createUser()">新增</button>
+<!--        <button onclick="createUser()">新增</button>-->
+        <button onclick="if (validateAccount()) { createUser() }">新增</button>
+
     </form>
     <form id="update-form" style="display: none;width: 48%">
         <label for="UaccountInput" class="disable" >帳號：</label>
@@ -53,9 +58,9 @@
         <br><br>
         <label for="UpasswordInput">密碼：</label>
         <input type="text" id="UpasswordInput" name="passwordInput">
-        <br><br>
-        <label for="UstatusInput">狀態：</label>
-        <input type="text" id="UstatusInput" name="statusInput">
+<!--        <br><br>-->
+<!--        <label for="UstatusInput">狀態：</label>-->
+<!--        <input type="text" id="UstatusInput" name="statusInput">-->
         <br><br>
         <button onclick="updateUser()">更新</button>
         <button onclick="取消編輯()">取消</button>
@@ -71,137 +76,217 @@
         const 新使用者 = {
             'account':document.getElementById('accountInput').value,
             'password':document.getElementById('passwordInput').value,
-            'status':document.getElementById('statusInput').value,
+            // 'status':document.getElementById('statusInput').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/`,{method:'POST',
             headers: {
                 'Content-Type': 'application/json'
             },body:JSON.stringify(新使用者)})
-            .then(function() {
-// 重新載入清單頁面
-                location.reload()
+            .then(res => res.json())
+            .then(data => {
+                if (data.status) {
+                    alert(data.resultMessage)
+                } else {
+                    alert(data.resultMessage)
+                }
             })
-            .catch(function(error) {
-                console.error(error)
-            })
-    }
-    function editUser(帳號,密碼,狀態) {
+            .catch(error => {
+                console.error('Error:', error)
+            })    }
+    function editUser(帳號,密碼) {
         // 處理修改使用者的邏輯
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = 帳號
         document.getElementById('UpasswordInput').value = 密碼
-        document.getElementById('UstatusInput').value = 狀態
+        // document.getElementById('UstatusInput').value = 狀態
         updateForm.style.display = 'block';
     }
     function deleteUser(account) {
         fetch(`/users/${account}`, {
             method: 'DELETE',
         })
-            .then(function() {
-// 重新載入清單頁面
-                location.reload()
+            .then(res => res.json())
+            .then(data => {
+                if (data.status) {
+                    alert(data.resultMessage)
+                } else {
+                    alert(data.resultMessage)
+                }
             })
-            .catch(function(error) {
-                console.error(error)
-            })
-    }
+            .catch(error => {
+                console.error('Error:', error)
+            })    }
     function 取消編輯(){
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = ''
         document.getElementById('UpasswordInput').value = ''
-        document.getElementById('UstatusInput').value = ''
+        // document.getElementById('UstatusInput').value = ''
         updateForm.style.display = 'none';
     }
+    function validateAccount() {
+        const account = document.getElementById("accountInput").value;
+        if (!account) {
+            alert("帳號不能為空白");
+            return false;
+        }
+        // 其他的檢查，例如帳號長度是否合法
+        return true;
+    }
+
     function updateUser() {
         const 被更新的使用者 = {
             'account':document.getElementById('UaccountInput').value,
             'password':document.getElementById('UpasswordInput').value,
-            'status':document.getElementById('UstatusInput').value,
+            // 'status':document.getElementById('UstatusInput').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/${被更新的使用者.account}`,{method:'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },body:JSON.stringify(被更新的使用者)})
-            .then(function() {
-// 重新載入清單頁面
-                location.reload()
+            .then(res => res.json())
+            .then(data => {
+                if (data.status) {
+                    alert(data.resultMessage)
+                } else {
+                    alert(data.resultMessage)
+                }
             })
-            .catch(function(error) {
-                console.error(error)
+            .catch(error => {
+                console.error('Error:', error)
             })
+    }
+    function filterTable() {
+        // 取得輸入的篩選條件
+        var filter = document.getElementById("filterInput").value.toUpperCase();
+        // 取得表格的第一層 tbody 元素
+        var table = document.getElementsByTagName("tbody")[0];
+        // 取得所有的 tr 元素
+        var rows = table.getElementsByTagName("tr");
+
+        // 循環每一個 tr 元素，並檢查是否符合篩選條件
+        for (var i = 0; i < rows.length; i++) {
+            var account = rows[i].getElementsByTagName("td")[0];
+            var password = rows[i].getElementsByTagName("td")[1];
+            var status = rows[i].getElementsByTagName("td")[2];
+            if (account.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                password.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                status.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
     }
 
 </script>
 
-<style>
-    /*body {*/
-    /*    background-image: url('images/930523982_today_is_Lantern_Festival__massive_rain_in_neon_city_with_cyberpunk__style_.png');*/
-    /*    background-size: cover;*/
-    /*    background-repeat: no-repeat;*/
-    /*}*/
+<!--計算=>-->
 
-    body {
-        background-image: url('images/930523982_today_is_Lantern_Festival__massive_rain_in_neon_city_with_cyberpunk__style_.png'); /* 背景圖片 */
-        background-size: cover; /* 將圖片覆蓋整個 body */
-        font-family: Arial, sans-serif; /* 字型 */
-    }
+<% function yyyymmdd(timestamp) {
+    var date = new Date(timestamp * 1000);
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
 
-    h1 {
-        text-align: center; /* 將標題置中 */
-        color: #fff; /* 文字顏色 */
-        text-shadow: 1px 1px #333; /* 文字陰影 */
-    }
+    var yyyymmdd = year + month + day;
 
-    table {
-        margin: auto; /* 將表格置中 */
-        width: 80%; /* 表格寬度 */
-        border-collapse: collapse; /* 移除表格邊框 */
-        box-shadow: 1px 1px #333; /* 表格陰影 */
-        color: #fff; /* 表格文字顏色 */
-    }
+    return yyyymmdd;
+} %>
 
-    th, td {
-        padding: 8px; /* 表格內距 */
-        border: 1px solid #333; /* 表格邊框 */
-        text-align: center; /* 將表格文字置中 */
-    }
+<% function yyyymmddhhMMss(timestamp) {
+    // let timestamp = 1675907863;
+    let date = new Date(timestamp * 1000);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
 
-    th {
-        background-color: #333; /* 表格標題背景顏色 */
-    }
+// 整理格式，補零至兩位數
+    month = (month < 10 ? "0" : "") + month;
+    day = (day < 10 ? "0" : "") + day;
+    hour = (hour < 10 ? "0" : "") + hour;
+    minute = (minute < 10 ? "0" : "") + minute;
+    second = (second < 10 ? "0" : "") + second;
 
-    button {
-        background-color: #333; /* 按鈕背景顏色 */
-        color: #fff; /* 按鈕文字顏色 */
-        padding: 8px 16px; /* 按鈕內距 */
-        border-radius: 4px; /* 按鈕圓角 */
-        border: none; /* 移除按鈕邊框 */
-        cursor: pointer; /* 指標樣式 */
-    }
+// 組合並輸出
+    let output = year + "" + month + "" + day + "  " + hour + ":" + minute + ":" + second;
 
-    label {
-        color: #fff; /* 標籤文字顏色 */
-    }
-
-    input[type="text"] {
-        padding: 8px; /* 輸入框內距 */
-        width: 100%; /* 輸入框寬度 */
-        border-radius: 4px; /* 輸入框圓角 */
-        border: 1px solid #333; /* 輸入框邊框 */
-        color: #fff; /* 輸入框文字顏色 */
-        background-color: #333; /* 輸入框背景顏色 */
-    }
-
-    .disable {
-        color: gray;
-    }
-    input[disabled] {
-        color: gray;
-    }
+    return output;
+} %>
 
 
-</style>
+
+<!--<style>-->
+<!--    /*body {*/-->
+<!--    /*    background-image: url('images/930523982_today_is_Lantern_Festival__massive_rain_in_neon_city_with_cyberpunk__style_.png');*/-->
+<!--    /*    background-size: cover;*/-->
+<!--    /*    background-repeat: no-repeat;*/-->
+<!--    /*}*/-->
+
+<!--    body {-->
+<!--        background-image: url('images/930523982_today_is_Lantern_Festival__massive_rain_in_neon_city_with_cyberpunk__style_.png'); /* 背景圖片 */-->
+<!--        background-size: cover; /* 將圖片覆蓋整個 body */-->
+<!--        font-family: Arial, sans-serif; /* 字型 */-->
+<!--    }-->
+
+<!--    h1 {-->
+<!--        text-align: center; /* 將標題置中 */-->
+<!--        color: #fff; /* 文字顏色 */-->
+<!--        text-shadow: 1px 1px #333; /* 文字陰影 */-->
+<!--    }-->
+
+<!--    table {-->
+<!--        margin: auto; /* 將表格置中 */-->
+<!--        width: 80%; /* 表格寬度 */-->
+<!--        border-collapse: collapse; /* 移除表格邊框 */-->
+<!--        box-shadow: 1px 1px #333; /* 表格陰影 */-->
+<!--        color: #fff; /* 表格文字顏色 */-->
+<!--    }-->
+
+<!--    th, td {-->
+<!--        padding: 8px; /* 表格內距 */-->
+<!--        border: 1px solid #333; /* 表格邊框 */-->
+<!--        text-align: center; /* 將表格文字置中 */-->
+<!--    }-->
+
+<!--    th {-->
+<!--        background-color: #333; /* 表格標題背景顏色 */-->
+<!--    }-->
+
+<!--    button {-->
+<!--        background-color: #333; /* 按鈕背景顏色 */-->
+<!--        color: #fff; /* 按鈕文字顏色 */-->
+<!--        padding: 8px 16px; /* 按鈕內距 */-->
+<!--        border-radius: 4px; /* 按鈕圓角 */-->
+<!--        border: none; /* 移除按鈕邊框 */-->
+<!--        cursor: pointer; /* 指標樣式 */-->
+<!--    }-->
+
+<!--    label {-->
+<!--        color: #fff; /* 標籤文字顏色 */-->
+<!--    }-->
+
+<!--    input[type="text"] {-->
+<!--        padding: 8px; /* 輸入框內距 */-->
+<!--        width: 100%; /* 輸入框寬度 */-->
+<!--        border-radius: 4px; /* 輸入框圓角 */-->
+<!--        border: 1px solid #333; /* 輸入框邊框 */-->
+<!--        color: #fff; /* 輸入框文字顏色 */-->
+<!--        background-color: #333; /* 輸入框背景顏色 */-->
+<!--    }-->
+
+<!--    .disable {-->
+<!--        color: gray;-->
+<!--    }-->
+<!--    input[disabled] {-->
+<!--        color: gray;-->
+<!--    }-->
+
+
+<!--</style>-->
 
 </html>

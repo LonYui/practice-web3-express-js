@@ -21,73 +21,6 @@ const contractAbi = [
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_account",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_password",
-        "type": "string"
-      }
-    ],
-    "name": "createUser",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_account",
-        "type": "string"
-      }
-    ],
-    "name": "deleteUser",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_account",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_password",
-        "type": "string"
-      }
-    ],
-    "name": "updateUser",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
@@ -102,20 +35,8 @@ const contractAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getAccountLength",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -154,10 +75,217 @@ const contractAbi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_account",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_password",
+        "type": "string"
+      }
+    ],
+    "name": "createUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_account",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_password",
+        "type": "string"
+      }
+    ],
+    "name": "updateUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_account",
+        "type": "string"
+      }
+    ],
+    "name": "deleteUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAccountLength",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
-]; // 合約的 ABI（接口說明）
-const contractAddress = '0x5592cd2c816e86E4F9f2f9D3AFc2e1c4b8E01fDc'; // 合約的地址
+];//0x08abf1bC52427fe8b648cB6d70a7c646ef0C4411 // 合約的 ABI（接口說明）
+
+// const contractAbi = [
+//   {
+//     "inputs": [
+//       {
+//         "internalType": "string",
+//         "name": "_account",
+//         "type": "string"
+//       },
+//       {
+//         "internalType": "string",
+//         "name": "_password",
+//         "type": "string"
+//       }
+//     ],
+//     "name": "createUser",
+//     "outputs": [
+//       {
+//         "internalType": "string",
+//         "name": "",
+//         "type": "string"
+//       }
+//     ],
+//     "stateMutability": "nonpayable",
+//     "type": "function"
+//   },
+//   {
+//     "inputs": [
+//       {
+//         "internalType": "string",
+//         "name": "_account",
+//         "type": "string"
+//       }
+//     ],
+//     "name": "deleteUser",
+//     "outputs": [
+//       {
+//         "internalType": "string",
+//         "name": "",
+//         "type": "string"
+//       }
+//     ],
+//     "stateMutability": "nonpayable",
+//     "type": "function"
+//   },
+//   {
+//     "inputs": [
+//       {
+//         "internalType": "string",
+//         "name": "_account",
+//         "type": "string"
+//       },
+//       {
+//         "internalType": "string",
+//         "name": "_password",
+//         "type": "string"
+//       }
+//     ],
+//     "name": "updateUser",
+//     "outputs": [
+//       {
+//         "internalType": "string",
+//         "name": "",
+//         "type": "string"
+//       }
+//     ],
+//     "stateMutability": "nonpayable",
+//     "type": "function"
+//   },
+//   {
+//     "inputs": [
+//       {
+//         "internalType": "uint256",
+//         "name": "",
+//         "type": "uint256"
+//       }
+//     ],
+//     "name": "accounts",
+//     "outputs": [
+//       {
+//         "internalType": "string",
+//         "name": "",
+//         "type": "string"
+//       }
+//     ],
+//     "stateMutability": "view",
+//     "type": "function"
+//   },
+//   {
+//     "inputs": [],
+//     "name": "getAccountLength",
+//     "outputs": [
+//       {
+//         "internalType": "uint256",
+//         "name": "",
+//         "type": "uint256"
+//       }
+//     ],
+//     "stateMutability": "view",
+//     "type": "function"
+//   },
+//   {
+//     "inputs": [
+//       {
+//         "internalType": "string",
+//         "name": "",
+//         "type": "string"
+//       }
+//     ],
+//     "name": "users",
+//     "outputs": [
+//       {
+//         "internalType": "string",
+//         "name": "account",
+//         "type": "string"
+//       },
+//       {
+//         "internalType": "string",
+//         "name": "password",
+//         "type": "string"
+//       },
+//       {
+//         "internalType": "uint256",
+//         "name": "status",
+//         "type": "uint256"
+//       },
+//       {
+//         "internalType": "uint256",
+//         "name": "createdAt",
+//         "type": "uint256"
+//       },
+//       {
+//         "internalType": "uint256",
+//         "name": "updatedAt",
+//         "type": "uint256"
+//       }
+//     ],
+//     "stateMutability": "view",
+//     "type": "function"
+//   }
+// ]; // 合約的 ABI（接口說明） //0x5592cd2c816e86E4F9f2f9D3AFc2e1c4b8E01fDc
+
+// const contractAddress = '0x5592cd2c816e86E4F9f2f9D3AFc2e1c4b8E01fDc'; // 合約的地址
+const contractAddress = '0x08abf1bC52427fe8b648cB6d70a7c646ef0C4411'; // 合約的地址
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 const privateKey = 'd12641050545136f0e86ba2c695a1e97c45715c01257220bc7c24e00f601b1d3'
 const pubKey = '0x1C9D9fB55779499F0ebCf700ac4b6EC183DD7b2a'
@@ -183,13 +311,19 @@ router.get('/', async (req, res) => {
 // })
 
 router.post('/', async (req, res) => {
+  const userIndex = users.findIndex(user => user.account === req.body.account)
+  if (userIndex !== -1) {
+    // res.status(404).send({"msg":'使用者存在 #memory'})
+    res.json({status: false, resultMessage: '使用者存在 #memory'})
+    return
+  }
   const send = async() => {
     const tx = {
       from:pubKey,
       to:contractAddress,
       // gas:50000,
       gas:303146,
-      data:contract.methods.createUser(req.body.account, req.body.password, req.body.status).encodeABI()
+      data:contract.methods.createUser(req.body.account, req.body.password).encodeABI()
     }
     const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
     web3.eth.sendSignedTransaction(signature.rawTransaction)
@@ -203,15 +337,17 @@ router.post('/', async (req, res) => {
         })
 
   }
+  // res.status(200).send(await send())
   await send()
-  return
+  res.json({status: true, resultMessage: '新增成功'})
 })
 
 router.put('/:account', async (req, res) => {
   const userIndex = users.findIndex(user => user.account === req.params.account)
   if (userIndex === -1) {
-    res.status(404).send('User not found #memory')
+    res.json({status: false, resultMessage: '找不到使用者 #memory'});
     return
+    // res.status(404).send('找不到使用者 #memory')
   }
   // users[userIndex] = { ...users[userIndex], ...req.body }
   const send = async() => {
@@ -234,15 +370,16 @@ router.put('/:account', async (req, res) => {
         })
 
   }
-  await send()
-  // res.json(users[userIndex])
-  return
+  // res.status(200).send(await send())
+  res.json({status: true, resultMessage: '更新成功'});
 })
 
 router.delete('/:account', async (req, res) => {
   const userIndex = users.findIndex(user => user.account === req.params.account)
   if (userIndex === -1) {
-    res.status(404).send('找不到使用者 #memory')
+    // res.status(404).send('找不到使用者 #memory')
+    res.json({status: false, resultMessage: '找不到使用者 #memory'})
+    return
   }
   // const user = users[userIndex]
   // users = users.filter(user => user.帳號 !== req.params.account)
@@ -267,7 +404,8 @@ router.delete('/:account', async (req, res) => {
           return error
         })
   }
-  res.status(200).send(await send())
+  // res.status(200).send(await send())
+  res.json({status: true, resultMessage: '刪除成功'});
 })
 
 
