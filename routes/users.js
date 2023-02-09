@@ -371,6 +371,7 @@ router.put('/:account', async (req, res) => {
 
   }
   // res.status(200).send(await send())
+  await send()
   res.json({status: true, resultMessage: '更新成功'});
 })
 
@@ -405,6 +406,7 @@ router.delete('/:account', async (req, res) => {
         })
   }
   // res.status(200).send(await send())
+  await send()
   res.json({status: true, resultMessage: '刪除成功'});
 })
 
