@@ -4,7 +4,11 @@
     <title>User Management</title>
 </head>
 <body>
-<h1>User Management</h1>合約:<%= '0x...'+contractAddress.slice(36) %>
+<h1>User Management</h1>
+<!--proxy合約:<%= '0x...'+contractAddress.slice(36) %>。-->
+proxy合約:<%= contractAddress %>。
+<!--目前合約 <%= '0x...'+currentAddress.slice(36) %>-->
+目前合約: <%= currentAddress %>
 <input type="text" id="filterInput">
 <button onclick="filterTable()">篩選</button>
 
