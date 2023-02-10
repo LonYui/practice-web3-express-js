@@ -5,12 +5,36 @@
 </head>
 <body>
 <h1>User Management</h1>
-<!--proxy合約:<%= '0x...'+contractAddress.slice(36) %>。-->
+<!--proxy合約:<%= '0x...' + contractAddress.slice(36) %>。-->
 proxy合約:<%= contractAddress %>。
-<!--目前合約 <%= '0x...'+currentAddress.slice(36) %>-->
+<!--目前合約 <%= '0x...' + currentAddress.slice(36) %>-->
 目前合約: <%= currentAddress %>
 <br/>
-<input type="text" id="filterInput">
+<label for="RaccountInput">帳號:</label>
+<input type="text" id="RaccountInput" name="RaccountInput">
+<br>
+<label for="RpasswordInput">密碼:</label>
+<input type="text" id="RpasswordInput" name="RpasswordInput">
+<br>
+<label for="RstatusSelect">狀態:</label>
+<select id="RstatusSelect" name="RstatusSelect">
+    <option value="">-</option>
+    <option value="0">停用</option>
+    <option value="1">啟用</option>
+</select>
+<br>
+<label for="RcreatedAtStartInput">創建時間(起):</label>
+<input type="date" id="RcreatedAtStartInput" name="RcreatedAtStartInput">
+<br>
+<label for="RcreatedAtEndInput">創建時間(迄):</label>
+<input type="date" id="RcreatedAtEndInput" name="RcreatedAtEndInput">
+<br>
+<label for="RupdatedAtStartInput">更新時間(起):</label>
+<input type="date" id="RupdatedAtStartInput" name="RupdatedAtStartInput">
+<br>
+<label for="RupdatedAtEndInput">更新時間(迄):</label>
+<input type="date" id="RupdatedAtEndInput" name="RupdatedAtEndInput">
+<br>
 <button onclick="filterTable()">篩選</button>
 
 <table>
@@ -66,21 +90,22 @@ proxy合約:<%= contractAddress %>。
 </div>
 
 
-
 </body>
 
 <script>
     function createUser() {
         const 新使用者 = {
-            'account':document.getElementById('accountInput').value,
-            'password':document.getElementById('passwordInput').value,
+            'account': document.getElementById('accountInput').value,
+            'password': document.getElementById('passwordInput').value,
             // 'status':document.getElementById('statusInput').value,
         }
         // 處理新增使用者的邏輯
-        fetch(`/users/`,{method:'POST',
+        fetch(`/users/`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },body:JSON.stringify(新使用者)})
+            }, body: JSON.stringify(新使用者)
+        })
             .then(res => res.json())
             .then(data => {
                 if (data.status) {
@@ -91,8 +116,10 @@ proxy合約:<%= contractAddress %>。
             })
             .catch(error => {
                 console.error('Error:', error)
-            })    }
-    function editUser(帳號,密碼) {
+            })
+    }
+
+    function editUser(帳號, 密碼) {
         // 處理修改使用者的邏輯
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = 帳號
@@ -114,14 +141,17 @@ proxy合約:<%= contractAddress %>。
             })
             .catch(error => {
                 console.error('Error:', error)
-            })    }
-    function 取消編輯(){
+            })
+    }
+
+    function 取消編輯() {
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = ''
         document.getElementById('UpasswordInput').value = ''
         // document.getElementById('UstatusInput').value = ''
         updateForm.style.display = 'none';
     }
+
     function validateAccount() {
         const account = document.getElementById("accountInput").value;
         if (!account) {
@@ -134,15 +164,17 @@ proxy合約:<%= contractAddress %>。
 
     function updateUser() {
         const 被更新的使用者 = {
-            'account':document.getElementById('UaccountInput').value,
-            'password':document.getElementById('UpasswordInput').value,
+            'account': document.getElementById('UaccountInput').value,
+            'password': document.getElementById('UpasswordInput').value,
             // 'status':document.getElementById('UstatusInput').value,
         }
         // 處理新增使用者的邏輯
-        fetch(`/users/${被更新的使用者.account}`,{method:'PUT',
+        fetch(`/users/${被更新的使用者.account}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
-            },body:JSON.stringify(被更新的使用者)})
+            }, body: JSON.stringify(被更新的使用者)
+        })
             .then(res => res.json())
             .then(data => {
                 if (data.status) {
@@ -157,8 +189,16 @@ proxy合約:<%= contractAddress %>。
     }
 
     function filterTable() {
+        const account = document.getElementById('RaccountInput').value
+        const password = document.getElementById('RpasswordInput').value
+        const status = document.getElementById('RstatusSelect').value
+        var date = new Date(document.getElementById('RcreatedAtStartInput').value);const createdAtStart = date.getTime()/1000;
+        date = new Date(document.getElementById('RcreatedAtEndInput').value);const createdAtEnd = date.getTime()/1000;
+        date = new Date(document.getElementById('RupdatedAtStartInput').value);const updatedAtStart = date.getTime()/1000;
+        date = new Date(document.getElementById('RupdatedAtEndInput').value);const updatedAtEnd = date.getTime()/1000;
 
-        window.location.href = `/users/${document.getElementById('filterInput').value}`
+
+        window.location.href = `/users?status=${status}&account=${account}&createdAtStart=${createdAtStart}&createdAtEnd=${createdAtEnd}&updatedAtStart=${updatedAtStart}&updatedAtEnd=${updatedAtEnd}&password=${password}`
     }
 </script>
 
@@ -197,8 +237,6 @@ proxy合約:<%= contractAddress %>。
 
     return output;
 } %>
-
-
 
 <!--<style>-->
 <!--    /*body {*/-->
