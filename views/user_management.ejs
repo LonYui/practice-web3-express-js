@@ -9,8 +9,8 @@
 proxy合約:<%= contractAddress %>。
 <!--目前合約 <%= '0x...'+currentAddress.slice(36) %>-->
 目前合約: <%= currentAddress %>
-<input type="text" id="filterInput">
-<button onclick="filterTable()">篩選</button>
+<!--<input type="text" id="filterInput">-->
+<!--<button onclick="filterTable()">篩選</button>-->
 
 <table>
     <thead>
@@ -48,11 +48,7 @@ proxy合約:<%= contractAddress %>。
         <br><br>
         <label for="passwordInput">密碼：</label>
         <input type="text" id="passwordInput" name="passwordInput">
-<!--        <br><br>-->
-<!--        <label for="statusInput">狀態：</label>-->
-<!--        <input type="text" id="statusInput" name="statusInput">-->
         <br><br>
-<!--        <button onclick="createUser()">新增</button>-->
         <button onclick="if (validateAccount()) { createUser() }">新增</button>
 
     </form>
@@ -62,9 +58,6 @@ proxy合約:<%= contractAddress %>。
         <br><br>
         <label for="UpasswordInput">密碼：</label>
         <input type="text" id="UpasswordInput" name="passwordInput">
-<!--        <br><br>-->
-<!--        <label for="UstatusInput">狀態：</label>-->
-<!--        <input type="text" id="UstatusInput" name="statusInput">-->
         <br><br>
         <button onclick="updateUser()">更新</button>
         <button onclick="取消編輯()">取消</button>
@@ -160,28 +153,6 @@ proxy合約:<%= contractAddress %>。
             .catch(error => {
                 console.error('Error:', error)
             })
-    }
-    function filterTable() {
-        // 取得輸入的篩選條件
-        var filter = document.getElementById("filterInput").value.toUpperCase();
-        // 取得表格的第一層 tbody 元素
-        var table = document.getElementsByTagName("tbody")[0];
-        // 取得所有的 tr 元素
-        var rows = table.getElementsByTagName("tr");
-
-        // 循環每一個 tr 元素，並檢查是否符合篩選條件
-        for (var i = 0; i < rows.length; i++) {
-            var account = rows[i].getElementsByTagName("td")[0];
-            var password = rows[i].getElementsByTagName("td")[1];
-            var status = rows[i].getElementsByTagName("td")[2];
-            if (account.innerHTML.toUpperCase().indexOf(filter) > -1 ||
-                password.innerHTML.toUpperCase().indexOf(filter) > -1 ||
-                status.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
     }
 
 </script>
