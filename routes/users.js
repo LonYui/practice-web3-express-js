@@ -129,8 +129,8 @@ const pubKey = '0x1C9D9fB55779499F0ebCf700ac4b6EC183DD7b2a'
 let 帳號表 = []
 let users = []
 
-router.get('/', async (req, res) => {
-  users = await contract.methods.R('').call()
+router.get('/:search_word?', async (req, res) => {
+  users = await contract.methods.R(req.params.search_word || '').call()
   // 篩選掉空的資料 此為合約介面的 workaround
   users = users.filter(user => user.some(value => value.trim() !== '' && value!== '0'));//and so onnn
   const currentAddress = await proxyadminContract.methods.getProxyImplementation(proxyAddress).call()
