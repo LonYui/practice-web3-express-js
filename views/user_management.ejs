@@ -9,8 +9,9 @@
 proxy合約:<%= contractAddress %>。
 <!--目前合約 <%= '0x...'+currentAddress.slice(36) %>-->
 目前合約: <%= currentAddress %>
-<!--<input type="text" id="filterInput">-->
-<!--<button onclick="filterTable()">篩選</button>-->
+<br/>
+<input type="text" id="filterInput">
+<button onclick="filterTable()">篩選</button>
 
 <table>
     <thead>
@@ -155,6 +156,10 @@ proxy合約:<%= contractAddress %>。
             })
     }
 
+    function filterTable() {
+
+        window.location.href = `/users/${document.getElementById('filterInput').value}`
+    }
 </script>
 
 <!--計算=>-->
