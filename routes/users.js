@@ -27,37 +27,6 @@ const contractAbi = [
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_account",
-        "type": "string"
-      }
-    ],
-    "name": "D",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_account",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_password",
-        "type": "string"
-      }
-    ],
-    "name": "U",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "_status",
         "type": "uint256"
@@ -129,6 +98,43 @@ const contractAbi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_account",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_password",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_status",
+        "type": "uint256"
+      }
+    ],
+    "name": "U",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_account",
+        "type": "string"
+      }
+    ],
+    "name": "D",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
@@ -204,7 +210,7 @@ router.put('/:account', async (req, res) => {
       to:contractAddress,
       // gas:50000,
       gas:303146,
-      data:contract.methods.U(req.body.account, req.body.password).encodeABI()
+      data:contract.methods.U(req.body.account, req.body.password, req.body.status).encodeABI()
     }
     const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
     web3.eth.sendSignedTransaction(signature.rawTransaction)

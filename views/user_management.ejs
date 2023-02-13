@@ -54,7 +54,7 @@ proxy合約:<%= contractAddress %>。
         <tr>
             <td><%= users[i].account %></td>
             <td><%= users[i].password %></td>
-            <td><%= users[i].status %></td>
+            <td><%= 狀態(users[i].status) %></td>
             <td><%= yyyymmddhhMMss(users[i].createdAt) %></td>
             <td><%= yyyymmddhhMMss(users[i].updatedAt) %></td>
             <td>
@@ -90,7 +90,7 @@ proxy合約:<%= contractAddress %>。
             <option value="">-</option>
             <option value="0">停用</option>
             <option value="1">啟用</option>
-            <option value="<%= Math.pow(2, 32) - 1 %>">刪除</option>
+<!--            <option value="<%= Math.pow(2, 32) - 1 %>">刪除</option>-->
         </select>
         <br><br>
         <button onclick="updateUser()">更新</button>
@@ -246,6 +246,16 @@ proxy合約:<%= contractAddress %>。
 
     return output;
 } %>
+
+<% function 狀態(狀態碼) {
+    if (狀態碼 ==0){return '停用'}
+    if (狀態碼 ==1){return '啟用'}
+    if (狀態碼 ==Math.pow(2, 32) - 1){return '刪除'}
+    return '-'
+} %>
+
+
+
 
 <!--<style>-->
 <!--    /*body {*/-->
