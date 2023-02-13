@@ -36,6 +36,15 @@ proxy合約:<%= contractAddress %>。
 <label for="RupdatedAtEndInput">更新時間(迄):</label>
 <input type="date" id="RupdatedAtEndInput" name="RupdatedAtEndInput">
 <br>
+<label for="RbankInput">帳戶銀行:</label>
+<input type="text" id="RbankInput" name="RbankInput">
+<br>
+<label for="RaddressInput">地址:</label>
+<input type="text" id="RaddressInput" name="RaddressInput">
+<br>
+<label for="RremarkInput">備註:</label>
+<input type="text" id="RremarkInput" name="RremarkInput">
+<br>
 <button onclick="filterTable()">篩選</button>
 
 <table>
@@ -46,6 +55,9 @@ proxy合約:<%= contractAddress %>。
         <th>狀態</th>
         <th>創建時間</th>
         <th>更新時間</th>
+        <th>帳戶銀行</th>
+        <th>地址</th>
+        <th>備註</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -57,6 +69,9 @@ proxy合約:<%= contractAddress %>。
             <td><%= 狀態(users[i].status) %></td>
             <td><%= yyyymmddhhMMss(users[i].createdAt) %></td>
             <td><%= yyyymmddhhMMss(users[i].updatedAt) %></td>
+            <td><%= users[i].bank %></td>
+            <td><%= users[i].address %></td>
+            <td><%= users[i].remark %></td>
             <td>
                 <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>')">修改</button>
                 <button onclick="deleteUser('<%= users[i].account %>')">刪除</button>
@@ -75,6 +90,15 @@ proxy合約:<%= contractAddress %>。
         <label for="passwordInput">密碼：</label>
         <input type="text" id="passwordInput" name="passwordInput">
         <br><br>
+        <label for="bankInput">帳戶銀行:</label>
+        <input type="text" id="bankInput" name="bankInput">
+        <br><br>
+        <label for="addressInput">地址:</label>
+        <input type="text" id="addressInput" name="addressInput">
+        <br><br>
+        <label for="remarkInput">備註:</label>
+        <input type="text" id="remarkInput" name="remarkInput">
+        <br><br>
         <button onclick="if (validateAccount()) { createUser() }">新增</button>
 
     </form>
@@ -92,6 +116,15 @@ proxy合約:<%= contractAddress %>。
             <option value="1">啟用</option>
 <!--            <option value="<%= Math.pow(2, 32) - 1 %>">刪除</option>-->
         </select>
+        <br><br>
+        <label for="UbankInput">帳戶銀行:</label>
+        <input type="text" id="UbankInput" name="UbankInput">
+        <br><br>
+        <label for="UaddressInput">地址:</label>
+        <input type="text" id="UaddressInput" name="UaddressInput">
+        <br><br>
+        <label for="UremarkInput">備註:</label>
+        <input type="text" id="UremarkInput" name="UremarkInput">
         <br><br>
         <button onclick="updateUser()">更新</button>
         <button onclick="取消編輯()">取消</button>
