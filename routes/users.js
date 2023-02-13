@@ -75,6 +75,21 @@ const contractAbi = [
         "internalType": "uint256",
         "name": "_updatedAtEnd",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bank",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_location",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_remark",
+        "type": "string"
       }
     ],
     "name": "R",
@@ -195,10 +210,10 @@ const pubKey = '0x1C9D9fB55779499F0ebCf700ac4b6EC183DD7b2a'
 let users = []
 
 router.get('/:search_word?', async (req, res) => {
-  var { status, account, password, createdAtStart, createdAtEnd, updatedAtStart, updatedAtEnd } = req.query;
+  var { status, account, password, createdAtStart, createdAtEnd, updatedAtStart, updatedAtEnd, bank  , location,remark } = req.query;
   // 例外處理 NaN 傳進來
   createdAtStart = createdAtStart === 'NaN' ? NaN : createdAtStart;createdAtEnd = createdAtEnd === 'NaN' ? NaN : createdAtEnd;updatedAtStart = updatedAtStart === 'NaN' ? NaN : updatedAtStart;updatedAtEnd = updatedAtEnd === 'NaN' ? NaN : updatedAtEnd;
-  users = await contract.methods.R(status || Math.pow(2, 32) - 2, account || '', password || '', createdAtStart || 0, createdAtEnd || Math.pow(2, 32) - 1, updatedAtStart || 0, updatedAtEnd || Math.pow(2, 32) - 1).call()
+  users = await contract.methods.R(status || Math.pow(2, 32) - 2, account || '', password || '', createdAtStart || 0, createdAtEnd || Math.pow(2, 32) - 1, updatedAtStart || 0, updatedAtEnd || Math.pow(2, 32) - 1 ,bank || 0 , location || 0 , remark || '').call()
   // 篩選掉空的資料 此為合約介面的 workaround
   users = users.filter(user => user.some(value => value.trim() !== '' && value!== '0'));//and so onnn
   const currentAddress = await proxyadminContract.methods.getProxyImplementation(proxyAddress).call()

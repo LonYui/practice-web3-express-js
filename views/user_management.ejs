@@ -367,18 +367,24 @@ proxy合約:<%= contractAddress %>。
     }
 
     function filterTable() {
-        const account = document.getElementById('RaccountInput').value
-        const password = document.getElementById('RpasswordInput').value
-        const status = document.getElementById('RstatusSelect').value
-        var date = new Date(document.getElementById('RcreatedAtStartInput').value);const createdAtStart = date.getTime()/1000;
-        date = new Date(document.getElementById('RcreatedAtEndInput').value);const createdAtEnd = date.getTime()/1000;
-        date = new Date(document.getElementById('RupdatedAtStartInput').value);const updatedAtStart = date.getTime()/1000;
-        date = new Date(document.getElementById('RupdatedAtEndInput').value);const updatedAtEnd = date.getTime()/1000;
+        const account = encodeURIComponent(document.getElementById('RaccountInput').value);
+        const password = encodeURIComponent(document.getElementById('RpasswordInput').value);
+        const status = encodeURIComponent(document.getElementById('RstatusSelect').value);
+        var date = new Date(document.getElementById('RcreatedAtStartInput').value);
+        const createdAtStart = encodeURIComponent(date.getTime()/1000);
+        date = new Date(document.getElementById('RcreatedAtEndInput').value);
+        const createdAtEnd = encodeURIComponent(date.getTime()/1000);
+        date = new Date(document.getElementById('RupdatedAtStartInput').value);
+        const updatedAtStart = encodeURIComponent(date.getTime()/1000);
+        date = new Date(document.getElementById('RupdatedAtEndInput').value);
+        const updatedAtEnd = encodeURIComponent(date.getTime()/1000);
+        const bank = encodeURIComponent(document.getElementById('RbankSelect').value);
+        const location = encodeURIComponent(document.getElementById('RlocationSelect').value);
+        const remark = encodeURIComponent(document.getElementById('RremarkInput').value);
 
+        window.location.href = `/users?status=${status}&account=${account}&createdAtStart=${createdAtStart}&createdAtEnd=${createdAtEnd}&updatedAtStart=${updatedAtStart}&updatedAtEnd=${updatedAtEnd}&password=${password}&bank=${bank}&location=${location}&remark=${remark}`;
 
-        window.location.href = `/users?status=${status}&account=${account}&createdAtStart=${createdAtStart}&createdAtEnd=${createdAtEnd}&updatedAtStart=${updatedAtStart}&updatedAtEnd=${updatedAtEnd}&password=${password}`
-    }
-</script>
+    }</script>
 
 <!--計算=>-->
 
