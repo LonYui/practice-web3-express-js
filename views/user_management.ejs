@@ -36,11 +36,53 @@ proxy合約:<%= contractAddress %>。
 <label for="RupdatedAtEndInput">更新時間(迄):</label>
 <input type="date" id="RupdatedAtEndInput" name="RupdatedAtEndInput">
 <br>
-<label for="RbankInput">帳戶銀行:</label>
-<input type="text" id="RbankInput" name="RbankInput">
+<label for="RbankSelect">帳戶銀行:</label>
+<select id="RbankSelect" name="RbankSelect">
+    <option value="">-</option>
+    <option value="1">第一銀行</option>
+    <option value="2">台新銀行</option>
+    <option value="3">台灣銀行</option>
+    <option value="4">國泰世華銀行</option>
+    <option value="5">中國信託銀行</option>
+    <option value="6">兆豐銀行</option>
+    <option value="7">永豐銀行</option>
+    <option value="8">玉山銀行</option>
+    <option value="9">凱基銀行</option>
+    <option value="10">星展銀行</option>
+    <option value="11">台灣企銀</option>
+    <option value="12">新光銀行</option>
+    <option value="13">上海商銀</option>
+    <option value="14">台北富邦銀行</option>
+    <option value="15">土地銀行</option>
+    <option value="16">合作金庫銀行</option>
+    <option value="17">華南銀行</option>
+    <option value="18">臺灣高雄商業銀行</option>
+    <option value="19">臺灣新生銀行</option>
+    <option value="20">臺灣省農業信用合作社</option>
+    <option value="21">臺灣漁業信用合作社</option>
+    <option value="22">臺灣公积金信用合作社</option>
+    <option value="23">臺灣中小企業銀行</option>
+    <option value="24">三信銀行</option>
+    <option value="25">陽信銀行</option>
+    <option value="26">萬泰銀行</option>
+    <option value="27">美國運通銀行</option>
+    <option value="28">花旗銀行</option>
+    <option value="29">法國巴黎銀行</option>
+    <option value="30">德意志銀行</option>
+</select>
+
 <br>
-<label for="RaddressInput">地址:</label>
-<input type="text" id="RaddressInput" name="RaddressInput">
+<label for="RlocationSelect">地址:</label>
+<select id="RlocationSelect" name="RlocationSelect">
+    <option value="">-</option>
+    <option value="1">士林夜市 (Shilin Night Market) - 台北市士林區忠誠路</option>
+    <option value="2">六合夜市 (Liuhe Night Market) - 高雄市前鎮區中山三路</option>
+    <option value="3">旗津島 (Qijin Island) - 高雄市旗津區旗津路</option>
+    <option value="4">宜蘭美麗島港 (Yilan Meilidao Port) - 宜蘭縣冬山鄉頭城路</option>
+    <option value="5">內湖藝術村 (Neihu Art Village) - 台北市內湖區內湖路一段</option>
+    <option value="6">淡水老街 (Tamsui Old Street) - 新北市淡水區淡金路</option>
+</select>
+
 <br>
 <label for="RremarkInput">備註:</label>
 <input type="text" id="RremarkInput" name="RremarkInput">
@@ -70,10 +112,10 @@ proxy合約:<%= contractAddress %>。
             <td><%= yyyymmddhhMMss(users[i].createdAt) %></td>
             <td><%= yyyymmddhhMMss(users[i].updatedAt) %></td>
             <td><%= users[i].bank %></td>
-            <td><%= users[i].address %></td>
+            <td><%= users[i].location %></td>
             <td><%= users[i].remark %></td>
             <td>
-                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>')">修改</button>
+                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>','<%= users[i].bank %>','<%= users[i].location %>','<%= users[i].remark %>')">修改</button>
                 <button onclick="deleteUser('<%= users[i].account %>')">刪除</button>
             </td>
         </tr>
@@ -90,11 +132,53 @@ proxy合約:<%= contractAddress %>。
         <label for="passwordInput">密碼：</label>
         <input type="text" id="passwordInput" name="passwordInput">
         <br><br>
-        <label for="bankInput">帳戶銀行:</label>
-        <input type="text" id="bankInput" name="bankInput">
+        <label for="bankSelect">帳戶銀行:</label>
+        <select id="bankSelect" name="bankSelect">
+            <option value="">-</option>
+            <option value="1">第一銀行</option>
+            <option value="2">台新銀行</option>
+            <option value="3">台灣銀行</option>
+            <option value="4">國泰世華銀行</option>
+            <option value="5">中國信託銀行</option>
+            <option value="6">兆豐銀行</option>
+            <option value="7">永豐銀行</option>
+            <option value="8">玉山銀行</option>
+            <option value="9">凱基銀行</option>
+            <option value="10">星展銀行</option>
+            <option value="11">台灣企銀</option>
+            <option value="12">新光銀行</option>
+            <option value="13">上海商銀</option>
+            <option value="14">台北富邦銀行</option>
+            <option value="15">土地銀行</option>
+            <option value="16">合作金庫銀行</option>
+            <option value="17">華南銀行</option>
+            <option value="18">臺灣高雄商業銀行</option>
+            <option value="19">臺灣新生銀行</option>
+            <option value="20">臺灣省農業信用合作社</option>
+            <option value="21">臺灣漁業信用合作社</option>
+            <option value="22">臺灣公积金信用合作社</option>
+            <option value="23">臺灣中小企業銀行</option>
+            <option value="24">三信銀行</option>
+            <option value="25">陽信銀行</option>
+            <option value="26">萬泰銀行</option>
+            <option value="27">美國運通銀行</option>
+            <option value="28">花旗銀行</option>
+            <option value="29">法國巴黎銀行</option>
+            <option value="30">德意志銀行</option>
+        </select>
+
         <br><br>
-        <label for="addressInput">地址:</label>
-        <input type="text" id="addressInput" name="addressInput">
+        <label for="locationSelect">地址:</label>
+        <select id="locationSelect" name="locationSelect">
+            <option value="">-</option>
+            <option value="1">士林夜市 (Shilin Night Market) - 台北市士林區忠誠路</option>
+            <option value="2">六合夜市 (Liuhe Night Market) - 高雄市前鎮區中山三路</option>
+            <option value="3">旗津島 (Qijin Island) - 高雄市旗津區旗津路</option>
+            <option value="4">宜蘭美麗島港 (Yilan Meilidao Port) - 宜蘭縣冬山鄉頭城路</option>
+            <option value="5">內湖藝術村 (Neihu Art Village) - 台北市內湖區內湖路一段</option>
+            <option value="6">淡水老街 (Tamsui Old Street) - 新北市淡水區淡金路</option>
+        </select>
+
         <br><br>
         <label for="remarkInput">備註:</label>
         <input type="text" id="remarkInput" name="remarkInput">
@@ -114,14 +198,55 @@ proxy合約:<%= contractAddress %>。
             <option value="">-</option>
             <option value="0">停用</option>
             <option value="1">啟用</option>
-<!--            <option value="<%= Math.pow(2, 32) - 1 %>">刪除</option>-->
         </select>
         <br><br>
-        <label for="UbankInput">帳戶銀行:</label>
-        <input type="text" id="UbankInput" name="UbankInput">
+        <label for="UbankSelect">帳戶銀行:</label>
+        <select id="UbankSelect" name="UbankSelect">
+            <option value="">-</option>
+            <option value="1">第一銀行</option>
+            <option value="2">台新銀行</option>
+            <option value="3">台灣銀行</option>
+            <option value="4">國泰世華銀行</option>
+            <option value="5">中國信託銀行</option>
+            <option value="6">兆豐銀行</option>
+            <option value="7">永豐銀行</option>
+            <option value="8">玉山銀行</option>
+            <option value="9">凱基銀行</option>
+            <option value="10">星展銀行</option>
+            <option value="11">台灣企銀</option>
+            <option value="12">新光銀行</option>
+            <option value="13">上海商銀</option>
+            <option value="14">台北富邦銀行</option>
+            <option value="15">土地銀行</option>
+            <option value="16">合作金庫銀行</option>
+            <option value="17">華南銀行</option>
+            <option value="18">臺灣高雄商業銀行</option>
+            <option value="19">臺灣新生銀行</option>
+            <option value="20">臺灣省農業信用合作社</option>
+            <option value="21">臺灣漁業信用合作社</option>
+            <option value="22">臺灣公积金信用合作社</option>
+            <option value="23">臺灣中小企業銀行</option>
+            <option value="24">三信銀行</option>
+            <option value="25">陽信銀行</option>
+            <option value="26">萬泰銀行</option>
+            <option value="27">美國運通銀行</option>
+            <option value="28">花旗銀行</option>
+            <option value="29">法國巴黎銀行</option>
+            <option value="30">德意志銀行</option>
+        </select>
+
         <br><br>
-        <label for="UaddressInput">地址:</label>
-        <input type="text" id="UaddressInput" name="UaddressInput">
+        <label for="UlocationSelect">地址:</label>
+        <select id="UlocationSelect" name="UlocationSelect">
+            <option value="">-</option>
+            <option value="1">士林夜市 (Shilin Night Market) - 台北市士林區忠誠路</option>
+            <option value="2">六合夜市 (Liuhe Night Market) - 高雄市前鎮區中山三路</option>
+            <option value="3">旗津島 (Qijin Island) - 高雄市旗津區旗津路</option>
+            <option value="4">宜蘭美麗島港 (Yilan Meilidao Port) - 宜蘭縣冬山鄉頭城路</option>
+            <option value="5">內湖藝術村 (Neihu Art Village) - 台北市內湖區內湖路一段</option>
+            <option value="6">淡水老街 (Tamsui Old Street) - 新北市淡水區淡金路</option>
+        </select>
+
         <br><br>
         <label for="UremarkInput">備註:</label>
         <input type="text" id="UremarkInput" name="UremarkInput">
@@ -139,7 +264,9 @@ proxy合約:<%= contractAddress %>。
         const 新使用者 = {
             'account': document.getElementById('accountInput').value,
             'password': document.getElementById('passwordInput').value,
-            // 'status':document.getElementById('statusInput').value,
+            'bank': document.getElementById('bankSelect').value,
+            'location': document.getElementById('locationSelect').value,
+            'remark': document.getElementById('remarkInput').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/`, {
@@ -161,12 +288,15 @@ proxy合約:<%= contractAddress %>。
             })
     }
 
-    function editUser(帳號, 密碼, 狀態) {
+    function editUser(帳號, 密碼, 狀態, 銀行, 地點, 備註) {
         // 處理修改使用者的邏輯
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = 帳號
         document.getElementById('UpasswordInput').value = 密碼
         document.getElementById('UstatusSelect').value = 狀態
+        document.getElementById('UbankSelect').value = 銀行
+        document.getElementById('UlocationSelect').value = 地點
+        document.getElementById('UremarkInput').value = 備註
         updateForm.style.display = 'block';
     }
     function deleteUser(account) {
@@ -191,6 +321,9 @@ proxy合約:<%= contractAddress %>。
         document.getElementById('UaccountInput').value = ''
         document.getElementById('UpasswordInput').value = ''
         document.getElementById('UstatusSelect').value = ''
+        document.getElementById('UbankSelect').value = ''
+        document.getElementById('UlocationSelect').value = ''
+        document.getElementById('UremarkInput').value = ''
         updateForm.style.display = 'none';
     }
 
@@ -209,6 +342,9 @@ proxy合約:<%= contractAddress %>。
             'account': document.getElementById('UaccountInput').value,
             'password': document.getElementById('UpasswordInput').value,
             'status':document.getElementById('UstatusSelect').value,
+            'bank':document.getElementById('UbankSelect').value,
+            'location':document.getElementById('UlocationSelect').value,
+            'remark':document.getElementById('UremarkInput').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/${被更新的使用者.account}`, {

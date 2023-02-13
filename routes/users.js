@@ -17,6 +17,21 @@ const contractAbi = [
         "internalType": "string",
         "name": "_password",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bank",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_location",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_remark",
+        "type": "string"
       }
     ],
     "name": "C",
@@ -90,6 +105,21 @@ const contractAbi = [
             "internalType": "uint256",
             "name": "updatedAt",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "bank",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "location",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "remark",
+            "type": "string"
           }
         ],
         "internalType": "struct CRUD.User[]",
@@ -117,6 +147,21 @@ const contractAbi = [
         "internalType": "uint256",
         "name": "_status",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bank",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_location",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_remark",
+        "type": "string"
       }
     ],
     "name": "U",
@@ -163,31 +208,25 @@ router.get('/:search_word?', async (req, res) => {
 router.post('/', async (req, res) => {
   const userIndex = users.findIndex(user => user.account === req.body.account)
   if (userIndex !== -1) {
-    // res.status(404).send({"msg":'使用者存在 #memory'})
     res.json({status: false, resultMessage: '使用者存在 #memory'})
     return
   }
   const send = async() => {
     const tx = {
-      from:pubKey,
-      to:contractAddress,
-      // gas:50000,
-      gas:303146,
-      data:contract.methods.C(req.body.account, req.body.password).encodeABI()
+      from: pubKey,
+      to: contractAddress,
+      gas: 303146,
+      data: contract.methods.C(req.body.account, req.body.password, req.body.bank, req.body.location, req.body.remark).encodeABI()
     }
-    const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
+    const signature = await web3.eth.accounts.signTransaction(tx, privateKey)
     web3.eth.sendSignedTransaction(signature.rawTransaction)
-        .on(
-        "receipt", (receipt) => {
+        .on("receipt", (receipt) => {
           console.log(receipt)
-        }
-        )
+        })
         .catch(error => {
           console.error(error)
         })
-
   }
-  // res.status(200).send(await send())
   await send()
   res.json({status: true, resultMessage: '新增成功'})
 })
@@ -197,38 +236,29 @@ router.put('/:account', async (req, res) => {
   if (userIndex === -1) {
     res.json({status: false, resultMessage: '找不到使用者 #memory'});
     return
-    // res.status(404).send('找不到使用者 #memory')
-  }
-  else if (users[userIndex].status == Math.pow(2, 32) - 1){
+  } else if (users[userIndex].status == Math.pow(2, 32) - 1) {
     res.json({status: false, resultMessage: '使用者已經刪除，不能編輯 #memory'});
     return
   }
-  // users[userIndex] = { ...users[userIndex], ...req.body }
-  const send = async() => {
+  const send = async () => {
     const tx = {
-      from:pubKey,
-      to:contractAddress,
-      // gas:50000,
-      gas:303146,
-      data:contract.methods.U(req.body.account, req.body.password, req.body.status).encodeABI()
+      from: pubKey,
+      to: contractAddress,
+      gas: 303146,
+      data: contract.methods.U(req.body.account, req.body.password, req.body.status, req.body.bank, req.body.location, req.body.remark).encodeABI()
     }
-    const signature = await web3.eth.accounts.signTransaction(tx,privateKey)
+    const signature = await web3.eth.accounts.signTransaction(tx, privateKey)
     web3.eth.sendSignedTransaction(signature.rawTransaction)
-        .on(
-            "receipt", (receipt) => {
-              console.log(receipt)
-            }
-        )
+        .on("receipt", (receipt) => {
+          console.log(receipt)
+        })
         .catch(error => {
           console.error(error)
         })
-
   }
-  // res.status(200).send(await send())
   await send()
   res.json({status: true, resultMessage: '更新成功'});
 })
-
 router.delete('/:account', async (req, res) => {
   const userIndex = users.findIndex(user => user.account === req.params.account)
   if (userIndex === -1) {
