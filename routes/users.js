@@ -193,6 +193,10 @@ router.put('/:account', async (req, res) => {
     return
     // res.status(404).send('找不到使用者 #memory')
   }
+  else if (users[userIndex].status == Math.pow(2, 32) - 1){
+    res.json({status: false, resultMessage: '使用者已經刪除，不能編輯 #memory'});
+    return
+  }
   // users[userIndex] = { ...users[userIndex], ...req.body }
   const send = async() => {
     const tx = {
@@ -224,6 +228,10 @@ router.delete('/:account', async (req, res) => {
   if (userIndex === -1) {
     // res.status(404).send('找不到使用者 #memory')
     res.json({status: false, resultMessage: '找不到使用者 #memory'})
+    return
+  }
+  else if (users[userIndex].status == Math.pow(2, 32) - 1){
+    res.json({status: false, resultMessage: '使用者已經刪除，不能刪除 #memory'});
     return
   }
   // const user = users[userIndex]

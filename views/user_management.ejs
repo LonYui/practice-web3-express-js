@@ -21,6 +21,7 @@ proxy合約:<%= contractAddress %>。
     <option value="">-</option>
     <option value="0">停用</option>
     <option value="1">啟用</option>
+    <option value="<%= Math.pow(2, 32) - 1 %>">刪除</option>
 </select>
 <br>
 <label for="RcreatedAtStartInput">創建時間(起):</label>
@@ -57,7 +58,7 @@ proxy合約:<%= contractAddress %>。
             <td><%= yyyymmddhhMMss(users[i].createdAt) %></td>
             <td><%= yyyymmddhhMMss(users[i].updatedAt) %></td>
             <td>
-                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>')">修改</button>
+                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>')">修改</button>
                 <button onclick="deleteUser('<%= users[i].account %>')">刪除</button>
             </td>
         </tr>
@@ -83,6 +84,14 @@ proxy合約:<%= contractAddress %>。
         <br><br>
         <label for="UpasswordInput">密碼：</label>
         <input type="text" id="UpasswordInput" name="passwordInput">
+        <br><br>
+        <label for="UstatusSelect">狀態:</label>
+        <select id="UstatusSelect" name="UstatusSelect">
+            <option value="">-</option>
+            <option value="0">停用</option>
+            <option value="1">啟用</option>
+            <option value="<%= Math.pow(2, 32) - 1 %>">刪除</option>
+        </select>
         <br><br>
         <button onclick="updateUser()">更新</button>
         <button onclick="取消編輯()">取消</button>
@@ -119,12 +128,12 @@ proxy合約:<%= contractAddress %>。
             })
     }
 
-    function editUser(帳號, 密碼) {
+    function editUser(帳號, 密碼, 狀態) {
         // 處理修改使用者的邏輯
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = 帳號
         document.getElementById('UpasswordInput').value = 密碼
-        // document.getElementById('UstatusInput').value = 狀態
+        document.getElementById('UstatusSelect').value = 狀態
         updateForm.style.display = 'block';
     }
     function deleteUser(account) {
@@ -148,7 +157,7 @@ proxy合約:<%= contractAddress %>。
         const updateForm = document.getElementById('update-form');
         document.getElementById('UaccountInput').value = ''
         document.getElementById('UpasswordInput').value = ''
-        // document.getElementById('UstatusInput').value = ''
+        document.getElementById('UstatusSelect').value = ''
         updateForm.style.display = 'none';
     }
 
@@ -166,7 +175,7 @@ proxy合約:<%= contractAddress %>。
         const 被更新的使用者 = {
             'account': document.getElementById('UaccountInput').value,
             'password': document.getElementById('UpasswordInput').value,
-            // 'status':document.getElementById('UstatusInput').value,
+            'status':document.getElementById('UstatusSelect').value,
         }
         // 處理新增使用者的邏輯
         fetch(`/users/${被更新的使用者.account}`, {
