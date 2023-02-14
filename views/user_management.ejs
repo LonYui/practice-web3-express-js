@@ -111,11 +111,11 @@ proxy合約:<%= contractAddress %>。
             <td><%= 狀態(users[i].status) %></td>
             <td><%= yyyymmddhhMMss(users[i].createdAt) %></td>
             <td><%= yyyymmddhhMMss(users[i].updatedAt) %></td>
-            <td><%= users[i].bank %></td>
-            <td><%= users[i].location %></td>
+            <td><%= 銀行(users[i].bank) %></td>
+            <td><%= 地點(users[i].location) %></td>
             <td><%= users[i].remark %></td>
             <td>
-                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>','<%= users[i].bank %>','<%= users[i].location %>','<%= users[i].remark %>')">修改</button>
+                <button onclick="editUser('<%= users[i].account %>','<%= users[i].password %>','<%= users[i].status %>','<%= users[i].bank %>','<%= users[i].location %>','<%= users[i].remark.replace(/\n/g, "  ") %>')">修改</button>
                 <button onclick="deleteUser('<%= users[i].account %>')">刪除</button>
             </td>
         </tr>
@@ -181,7 +181,7 @@ proxy合約:<%= contractAddress %>。
 
         <br><br>
         <label for="remarkInput">備註:</label>
-        <input type="text" id="remarkInput" name="remarkInput">
+        <textarea id="remarkInput" name="remarkInput"></textarea>
         <br><br>
         <button onclick="if (validateAccount()) { createUser() }">新增</button>
 
@@ -249,7 +249,7 @@ proxy合約:<%= contractAddress %>。
 
         <br><br>
         <label for="UremarkInput">備註:</label>
-        <input type="text" id="UremarkInput" name="UremarkInput">
+        <textarea id="UremarkInput" name="UremarkInput"></textarea>
         <br><br>
         <button onclick="updateUser()">更新</button>
         <button onclick="取消編輯()">取消</button>
@@ -429,6 +429,43 @@ proxy合約:<%= contractAddress %>。
     return '-'
 } %>
 
+<% function 銀行(銀行碼) {
+if (銀行碼 ==1){return '第一銀行'}
+if (銀行碼 ==2){return '台新銀行'}
+if (銀行碼 ==3){return '台灣銀行'}
+if (銀行碼 ==4){return '國泰世華銀行'}
+if (銀行碼 ==5){return '中國信託銀行'}
+if (銀行碼 ==6){return '兆豐銀行'}
+if (銀行碼 ==7){return '永豐銀行'}
+if (銀行碼 ==8){return '玉山銀行'}
+if (銀行碼 ==9){return '凱基銀行'}
+if (銀行碼 ==10){return '星展銀行'}
+if (銀行碼 ==11){return '台灣企銀'}
+if (銀行碼 ==12){return '新光銀行'}
+if (銀行碼 ==13){return '上海商銀'}
+if (銀行碼 ==14){return '台北富邦銀行'}
+if (銀行碼 ==15){return '土地銀行'}
+if (銀行碼 ==16){return '合作金庫銀行'}
+if (銀行碼 ==17){return '華南銀行'}
+if (銀行碼 ==18){return '臺灣高雄商業銀行'}
+if (銀行碼 ==19){return '臺灣新生銀行'}
+if (銀行碼 ==20){return '臺灣省農業信用合作社'}
+if (銀行碼 ==21){return '臺灣漁業信用合作社'}
+if (銀行碼 ==22){return '臺灣公积金信用合作社'}
+if (銀行碼 ==23){return '臺灣中小企業銀行'}
+return 銀行碼
+} %>
+<%function 地點(地點碼) {
+    if (地點碼 == 1){return '士林夜市 (Shilin Night Market) - 台北市士林區忠誠路'}
+    if (地點碼 == 2){return '六合夜市 (Liuhe Night Market) - 高雄市前鎮區中山三路'}
+    if (地點碼 == 3){return '旗津島 (Qijin Island) - 高雄市旗津區旗津路'}
+    if (地點碼 == 4){return '宜蘭美麗島港 (Yilan Meilidao Port) - 宜蘭縣冬山鄉頭城路'}
+    if (地點碼 == 5){return '內湖藝術村 (Neihu Art Village) - 台北市內湖區內湖路一段'}
+    if (地點碼 == 6){return '淡水老街 (Tamsui Old Street) - 新北市淡水區淡金路'}
+    return 地點碼
+}
+
+%>
 
 
 
